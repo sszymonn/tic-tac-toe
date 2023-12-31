@@ -19,8 +19,8 @@ Then to develop client, in root directory:
 Then in new terminal window, to develop backend locally `cd functions` and:
 `npm run build:watch`
 
-Then in new terminal window:
-`firebase emulators:start`
+Then in new terminal window (in root directory):
+`npm run firebase:local`
 
 
 You can explore data and function logs locally on:
@@ -28,7 +28,12 @@ http://127.0.0.1:8080/database/tic-tac-toe-70579/data
 
 # Testing
 
-TBD
+Unit tests can be run with vitest (in root directory):
+- `npm run test`
+
+E2E test can be run with playwright (in root directory):
+- make sure app and emulators run in separate terminals (`npm run dev` and `npm run firebase:local`)
+- run `npm run test:e2e` or via VS Code plugin
 
 # React + TypeScript + Vite
 

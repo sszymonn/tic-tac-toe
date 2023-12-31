@@ -68,12 +68,16 @@ export const GameBoard: FC<GameBoardProps> = ({
           row.map((col: GameMark | null, colIndex) => {
             return (
               <Box
+                data-testid={`game-board-${rowIndex}-${colIndex}`}
                 key={`${rowIndex}-${colIndex}`}
                 onClick={handleSelect({ rowIndex, colIndex })}
                 sx={{
                   p: "1rem",
                   backgroundColor: "gray",
-                  cursor: (turnActive && gameStatus !== 'over') ? "pointer" : "not-allowed",
+                  cursor:
+                    turnActive && gameStatus !== "over"
+                      ? "pointer"
+                      : "not-allowed",
                   width: "1.5rem",
                   height: "1.5rem",
                 }}

@@ -6,54 +6,44 @@ const APP_URL = "http://localhost:5173/";
 test("can login", async ({ page, context }) => {
   await page.goto(APP_URL);
 
-  // Expect sign in button
-  await expect(page.getByText(/sign in/i)).toBeVisible();
-
-  // Expect Auth window
-  const authPromise = context.waitForEvent("page");
-
-  // Click sign in button
-  await page.getByText(/sign in/i).click();
-
-  // Expect auth window to open
-  const authPage = await authPromise;
-  await authPage.waitForLoadState();
-
-  // Expect create account button
-  await expect(authPage.getByText(/add new account/i)).toBeVisible();
-
-  // Click create account button
-  await authPage.getByText(/add new account/i).click();
-
-  // Expect autogenerate user information
-  await expect(
-    authPage.getByText(/auto-generate user information/i)
-  ).toBeVisible();
-
-  // Click autogenerate user information
-  await authPage.getByText(/auto-generate user information/i).click();
-
-  // Expect sign in button with google.com
-  await expect(authPage.getByText(/sign in with google.com/i)).toBeVisible();
-
-  // Click sign in button with google.com
-  await authPage.getByText(/sign in with google.com/i).click();
-
+  await login({ page, context });
+  
   // Expect play now button
   await expect(page.getByText(/play now/i)).toBeVisible();
 });
 
-test("can play", async ({ page, context }) => {
-    await page.goto(APP_URL);
-  
-    await login({ page, context });
-  
-    // Expect play now button
-    await expect(page.getByText(/play now/i)).toBeVisible();
+test("can play", async ({ browser }) => {
+  const firstPlayerContext = await browser.newContext();
+  const firstPlayerPage = await browser.newPage();
 
-    // Click play now button
-    await page.getByText(/play now/i).click();
+  await firstPlayerPage.goto(APP_URL);
 
-    // Expect game waiting for opponent
-    await expect(page.getByText(/waiting for another player/i)).toBeVisible();
-  });
+  await login({ page: firstPlayerPage, context: firstPlayerContext });
+
+  // Expect play now button
+  await expect(firstPlayerPage.getByText(/play now/i)).toBeVisible();
+
+  // Click play now button
+  await firstPlayerPage.getByText(/play now/i).click();
+
+  // Expect game waiting for opponent
+  await expect(
+    firstPlayerPage.getByText(/waiting for another player/i)
+  ).toBeVisible();
+
+  // Second player
+  const secondPlayerContext = await browser.newContext();
+  const secondPlayerPage = await browser.newPage();
+  await secondPlayerPage.goto(APP_URL);
+  await login({ page: secondPlayerPage, context: secondPlayerContext });
+
+  // Expect play now button
+  await expect(secondPlayerPage.getByText(/play now/i)).toBeVisible();
+
+  // Click play now button
+  await secondPlayerPage.getByText(/play now/i).click();
+
+  // Expect game board
+  await expect(firstPlayerPage.getByTestId("game-board-0-0")).toBeVisible();
+  await expect(secondPlayerPage.getByTestId("game-board-0-0")).toBeVisible();
+});

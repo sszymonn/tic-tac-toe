@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:e2e": "npx playwright test --ui",
-    "firebase:local": "firebase emulators:start"
+    "firebase:local": "NODE_ENV=development firebase emulators:start"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

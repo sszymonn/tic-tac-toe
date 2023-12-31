@@ -1,3 +1,7 @@
+# Demo
+
+![game-demo](https://github.com/sszymonn/tic-tac-toe/assets/17165771/21c5b737-bcb4-4c17-b790-385c9b8c3ee7)
+
 # Setup overview
 
 The game comprises of two parts:

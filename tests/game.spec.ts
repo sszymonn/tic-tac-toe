@@ -50,4 +50,10 @@ test("can play", async ({ page, context }) => {
   
     // Expect play now button
     await expect(page.getByText(/play now/i)).toBeVisible();
+
+    // Click play now button
+    await page.getByText(/play now/i).click();
+
+    // Expect game waiting for opponent
+    await expect(page.getByText(/waiting for another player/i)).toBeVisible();
   });
